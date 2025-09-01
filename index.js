@@ -1,32 +1,3 @@
-# AI Programming for JavaScript Developers
-
-## Creating App
-
-### Install OpenAI
-
-```sh
-pnpm init
-pnpm add openai dotenv
-```
-
-### Generate API key
-
-```js
-import OpenAI from "openai";
-import dotenv from "dotenv";
-
-dotenv.config();
-
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-});
-
-console.log(openai);
-```
-
-### Language model
-
-```js
 import OpenAI from "openai";
 import dotenv from "dotenv";
 
@@ -46,4 +17,3 @@ const hello = async () => {
 };
 
 hello();
-```
