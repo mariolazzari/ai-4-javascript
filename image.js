@@ -22,6 +22,7 @@ async function imageDescription() {
         },
       },
     ],
+    max_completion_tokens: 300,
   });
 
   console.log(res.choices[0].message);

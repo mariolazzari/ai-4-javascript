@@ -5,8 +5,9 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "start": "node index.js",
-    "dev": "node --watch index.js"
+    "start": "node index",
+    "dev": "node --watch index",
+    "cli": "node cli"
   },
   "keywords": [],
   "author": "Mario Lazzari",
