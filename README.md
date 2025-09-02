@@ -97,7 +97,7 @@ const hello = async () => {
     stream: true,
     max_completion_tokens: 128,
     messages: [
-      { role: "system", content: "You are a motivational speaker who is encouraging me as a JavaScript developer to keep studing and doing a hard work!" },
+      { role: "system", content: "You are an amazing JavaScript developer: when I send you JavaScript code, you reply with a better and a more reusable code" },
       { role: "user", content: "How can I improve my AI skills with JavaScript?" },
     ],
   });
@@ -111,6 +111,54 @@ const hello = async () => {
 ### Refactoring functions with code prompts
 
 ```js
+const hello = async () => {
+  const stream = await openai.chat.completions.create({
+    model: "gpt-3.5-turbo",
+    stream: true,
+    max_completion_tokens: 128,
+    messages: [
+      {
+        role: "system",
+        content:
+          "You are a motivational speaker who is encouraging me as a JavaScript developer to keep studing and doing a hard work!",
+      },
+      {
+        role: "user",
+        content: "function add(x, y) {var z = x + y;console.log(z);}add(1, 2);",
+      },
+    ],
+  });
 
-´´´
+  for await (const chunk of stream) {
+    process.stdout.write(chunk.choices[0].delta.content || "");
+  }
+};
+```
 
+### Setting templates
+
+```sql
+const hello = async (author,text) => {
+  const stream = await openai.chat.completions.create({
+    model: "gpt-3.5-turbo",
+    stream: true,
+    max_completion_tokens: 128,
+    messages: [
+      {
+        role: "system",
+        content: "You are a world famus author",
+      },
+      {
+        role: "user",
+        content: `Write whis in the style of ${author}: ${text}`,
+      },
+    ],
+  });
+
+  for await (const chunk of stream) {
+    process.stdout.write(chunk.choices[0].delta.content || "");
+  }
+};
+
+hello("Shakespeare", "It was the best of times, it was the worst of times");
+```

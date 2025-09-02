@@ -7,7 +7,7 @@ const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
 
-const hello = async () => {
+const hello = async text => {
   const stream = await openai.chat.completions.create({
     model: "gpt-3.5-turbo",
     stream: true,
@@ -15,12 +15,11 @@ const hello = async () => {
     messages: [
       {
         role: "system",
-        content:
-          "You are a motivational speaker who is encouraging me as a JavaScript developer to keep studing and doing a hard work!",
+        content: "You are a world famus author",
       },
       {
         role: "user",
-        content: "How can I improve my AI skills with JavaScript?",
+        content: `Write whis in the style of Shakespeare: ${text}`,
       },
     ],
   });
@@ -30,4 +29,4 @@ const hello = async () => {
   }
 };
 
-hello();
+hello("It was the best of times, it was the worst of times");
