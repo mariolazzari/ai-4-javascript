@@ -379,6 +379,80 @@ rl.question("Share your opening paragraph with Rowena\n", async question => {
 
 ### Setting up LangChain project
 
-```js
+[LangChain](https://python.langchain.com/docs/integrations/llms/openai/)
+[LabgChain API](https://python.langchain.com/api_reference/)
 
+```sh
+pnpm add @langchain/openai
+```
+
+```js
+import { ChatOpenAI } from "@langchain/openai";
+import "dotenv/config";
+
+const chatModel = new ChatOpenAI({
+  apiKey: process.env.OPENAI_API_KEY,
+});
+
+const population = await chatModel.invoke("Quanti abitanti ha Riva del garda?");
+console.log(population);
+```
+
+### Creating a chat template
+
+```sh
+pnpm add @langchain/core
+```
+
+```js
+import { ChatOpenAI } from "@langchain/openai";
+import { ChatPromptTemplate } from "@langchain/core/prompts";
+import { StringOutputParser } from "@langchain/core/output_parsers";
+import "dotenv/config";
+
+const prompt = ChatPromptTemplate.fromMessages([
+  "human",
+  "Write a haiku about {topic}"
+]);
+
+const chatModel = new ChatOpenAI();
+const parser = new StringOutputParser();
+
+const chain = prompt.pipe(chatModel).pipe(parser);
+
+const response = await chain.invoke({
+  topic: "cats"
+});
+
+console.log(response);
+```
+
+### Using runnable sequence
+
+```js
+import { ChatOpenAI } from "@langchain/openai";
+import { PromptTemplate } from "@langchain/core/prompts";
+import { RunnableSequence } from "@langchain/core/runnables";
+import { StringOutputParser } from "@langchain/core/output_parsers";
+import "dotenv/config";
+
+const chatModel = new ChatOpenAI();
+
+const prompt = PromptTemplate.fromTemplate(
+  "Write a haiku about {topic}"
+);
+
+const parser = new StringOutputParser();
+
+const chain = RunnableSequence.from([
+  prompt,
+  chatModel,
+  parser
+]);
+
+const response = await chain.invoke({
+  topic: "spaceships"
+});
+
+console.log(response);
 ```
